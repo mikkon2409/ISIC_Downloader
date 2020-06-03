@@ -228,6 +228,18 @@ def main():
         images_meta = json.load(read_file)
         info(f'Number of images after script execution: {len(images_meta)}')
 
+    if True:
+        with open(path_to_images_meta, "r") as read_file:
+            images_meta = json.load(read_file)
+            images_ids = []
+            for image in images_meta:
+                images_ids.append(image["_id"] + ".jpg")
+            images_path = os.path.join(Config.WORKSPACE_PATH, Config.IMAGES_PATH)
+            for image in os.listdir(images_path):
+                if image not in images_ids:
+                    os.remove(os.path.join(images_path, image))
+                    info(f'{image} deleted')
+
 
 if __name__ == "__main__":
     main()

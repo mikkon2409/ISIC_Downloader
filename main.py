@@ -224,11 +224,7 @@ def main():
                 json.dump(images_meta, write_file, indent=4)
                 info("File written")
 
-    with open(path_to_images_meta, "r") as read_file:
-        images_meta = json.load(read_file)
-        info(f'Number of images after script execution: {len(images_meta)}')
-
-    if True:
+    if False:
         with open(path_to_images_meta, "r") as read_file:
             images_meta = json.load(read_file)
             images_ids = []
@@ -239,6 +235,23 @@ def main():
                 if image not in images_ids:
                     os.remove(os.path.join(images_path, image))
                     info(f'{image} deleted')
+
+    if True:
+        with open(path_to_images_meta, "r") as read_file:
+            images_meta = json.load(read_file)
+            num = 0
+            for image in images_meta:
+                if "diagnosis" in image["meta"]["clinical"].keys() or \
+                        "benign_malignant" in image["meta"]["clinical"].keys():
+                    num += 1
+            print("Num:", num)
+
+
+    with open(path_to_images_meta, "r") as read_file:
+        images_meta = json.load(read_file)
+        info(f'Number of images after script execution: {len(images_meta)}')
+        print("Benign:", len(list(filter(lambda x: x["meta"]["clinical"]["benign_malignant"] == "benign", images_meta))))
+        print("Malignant:", len(list(filter(lambda x: x["meta"]["clinical"]["benign_malignant"] == "malignant", images_meta))))
 
 
 if __name__ == "__main__":
